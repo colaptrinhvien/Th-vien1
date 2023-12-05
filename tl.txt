@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <script src="../js/jquery-3.6.1.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <style>
+        [class*="col-"]{
+            padding-left: 0px;
+            padding-right: 0px;
+            border: 1px blue;
+        }
+    </style>
+    <script>
+         $(document).ready(function () {
+            var i = 2;
+            $("#formDangKy").click(function () {
+                $("#myModal").modal()
+            })
+            //Chuc nang dau tien
+            function kiemTraMa(){
+                var Ma = /(K16){1}-[0-9]{9}$/;
+                if  ($("#txtMa").val() == "") {
+                    $("#tbMa").html("*Bắt buộc nhập");
+                    $("#tbMa").addClass("mauDo");
+                    return false;
+                }
+                if (!Ma.test($("#txtMa").val())) {
+                    $("#tbMa").html("*phải nhập theo form K16-xxxxxxxxx");
+                    $("#tbMa").addClass("mauDo");
+                    return false;
+                }
+                $("#tbMa").html("*");
+                return true;
+            };
+            $("#txtMa").blur(kiemTraMa);
+
+            //Chuc nang thu 2 
+            function kiemTraTen (){
+                var ten =  /(^[A-Z]{1})([a-z]+)(\s[A-Z]{1}([a-z]+))*$/;
+                if ($("#txtHoten").val() == "") {
+                    $("#tbHoten").html("*Bắt buộc nhập");
+                    return false;
+                }
+                if (!ten.test($("#txtHoten").val())) {
+                    $("#tbHoten").html("*chữ cái đầu phải viết hoa");
+                    return false;
+                }
+                $("#tbHoten").html("*");
+                return true;
+            }
+            $("#txtHoten").blur(kiemTraTen);
+            
+
+            //Chuc nang thu 3
+            function kiemTraLop() {
+                var Lop = /(^[A-Z0-9]{11})$/;
+                if  ($("#txtLop").val() == "") {
+                    $("#tbLop").html("*Bắt buộc nhập");
+                    $("#tbLop").addClass("mauDo");
+                    return false;
+                }
+                if (!Lop.test($("#txtLop").val())) {
+                    $("#tbLop").html("*Lớp gồm 11 ký tự là chữ in hoa và số!!");
+                    $("#tbLop").addClass("mauDo");
+                    return false;
+                }
+                $("#tbLop").html("*");
+                return true;
+            }
+            $("#txtLop").blur(kiemTraLop);
+
+            var txtNgay = $("#txtNgay");
+            var tbNgay = $("#tbNgay");
+            function kiemTraNgay(){
+                if(txtNgay.val()== ""){
+                    tbNgay.html("*Bắt buộc nhập");
+                    return false;
+                }
+                var day = new Date(txtNgay.val());
+                var today = new Date();
+                today.setDate(today.getDate() + 30);
+                if (day < today){
+                    tbNgay.html("*Ngày gia nhập phải trước 30 ngày ");
+                    return false;
+                }
+                tbNgay.html("*");
+                return true;
+            }
+            txtNgay.blur(kiemTraNgay);
+
+
+            //Chuc nang thu 4
+            function kiemTraSDT() {
+                var sdt = /^[0-0]{1}[0-9]{3}-[0-9]{3}-[0-9]{3}$/;
+                if ($("#txtSDT").val() == "") {
+                    $("#tbSDT").html("* Bắt buộc nhập");
+                    return false;
+                }
+
+                if (!sdt.test($("#txtSDT").val())) {
+                    $("#tbSDT").html("* Bắt đầu bằng số 0 - Số điện thoại theo mẫu: 0XXX-XXX-XXX");
+                    return false;
+                }
+                $("#tbSDT").html("*");
+                return true;
+            }
+            $("#txtSDT").blur(kiemTraSDT);
+            
+
+            //Chuc nang thu 5
+            function kiemTraEmail () {
+                var em = /[A-Za-z0-9]+(@iuh.edu.vn){1}$/;
+                if  ($("#txtEmail").val() == "") {
+                    $("#tbEmail").html("*Bắt buộc nhập");
+                    $("#tbEmail").addClass("mauDo");
+                    return false;
+                }
+                if (!em.test($("#txtEmail").val())) {
+                    $("#tbEmail").html("*Email phải nhập theo mẫu xxxxxx@iuh.edu.vn");
+                    $("#tbEmail").addClass("mauDo");
+                    return false;
+                }
+                $("#tbEmail").html("*");
+                return true;
+            }
+            $("#txtEmail").blur(kiemTraEmail);
+
+            $("#btnSave").click(function () {
+                var Ma = $("#txtMa").val();
+                var ten = $("#txtHoten").val();
+                var Lop = $("#txtLop").val();
+                var Ngay = $("#txtNgay").val();
+                var sdt = $("#txtSDT").val();
+                var em = $("#txtEmail").val();
+                var them = "<tr><td>" + (i++) + "</td><td>" + Ma + "</td><td>" + ten + "</td><td>" + Lop + "</td><td>" + Ngay + "</td><td>" +
+                    sdt + "</td><td>" + em + "</td></tr>";
+                $("table tbody").append(them);
+                $("#myModal").modal("hide");
+                return true;
+            })
+        })
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="col-md-12 header_banner">
+            <img src="../img/HEADER.PNG" alt="" width="100%" height="300px">
+        </div>
+        <div class="col-md-12" >
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Đăng Nhập</a>
+                </li>
+                <li class="nav-item" id="formDangKy">
+                    <a class="nav-link" href="#">Đăng ký</a>
+                </li>
+            </ul>
+        </div>
+        <div class="dropdown-header">
+            <h4 style="width: 100%; text-align: center;">
+                DANH SÁCH THAM GIA ĐỘI ROBOCON KHOA CNTT
+            </h4>
+        </div>
+
+
+
+        <div class="row" style="padding-top: 10px;">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Mã thành viên</th>
+                            <th>Họ tên</th>
+                            <th>Lớp</th>
+                            <th>Ngày tham gia</th>
+                            <th>Điện Thoại</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>K16-123456789</td>
+                            <td>Tran  Thanh Khoa</td>
+                            <td>DHKTPM16ATT</td>
+                            <td>22/02/2022</td>
+                            <td>0909-123-123</td>
+                            <td>thanhkhoa@iuh.edu.vn</td>
+                            
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <footer style="text-align: center;">SVTH: Từ Tú Phương Mã số sinh viên: 19491151 Lớp: DHKTPM15A</footer>
+            </div>
+        </div>
+
+        <div id="myModal" class="modal fade">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 style="width: 100%; text-align: center;">THÔNG TIN CÁ NHÂN</h2>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form" class="form-control">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label><b>Mã thành viên</b> </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input id="txtMa" type="text" placeholder="MÃ: K16-xxxxxxxxx" class="form-control">
+                                    <span id="tbMa" class="text-danger">*</span><br>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label><b>Họ tên:</b> </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input id="txtHoten" type="text" placeholder="Họ tên: Tran Anh Dung" class="form-control">
+                                    <span id="tbHoten" class="text-danger">*</span><br>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label><b>Lớp:</b> </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input id="txtLop" type="text" placeholder="Lớp: DHKTPM16ATT" class="form-control">
+                                    <span id="tbLop" class="text-danger">*</span><br>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label><b>Ngày tham gia:</b> </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input id="txtNgay" type="date" placeholder="mm/dd/yy" class="form-control">
+                                    <span id="tbNgay" class="text-danger">*</span><br>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label><b>Số điện thoại:</b> </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input id="txtSDT" type="tel" placeholder="0xxx-xxx-xxx" class="form-control">
+                                    <span id="tbSDT" class="text-danger">*</span><br>
+                                </div>
+                            </div>
+                            
+                           
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label><b>Email</b></label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input id="txtEmail" type="email" placeholder="Email: xxxxx@iuh.edu.vn" class="form-control">
+                                    <span id="tbEmail" class="text-danger">*</span><br>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <button type="button" class="btn btn-success btn-block" id="btnSave">Lưu</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+    </div>
+    
+</body>
+</html>
